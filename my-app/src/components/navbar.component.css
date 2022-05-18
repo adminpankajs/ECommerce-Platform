@@ -1,0 +1,66 @@
+body {
+    margin: 0px;
+}
+.float-left {
+    float: left;
+}
+
+.float-right {
+    float: right;
+}
+
+.justify-right {
+    justify-content: flex-end;
+    margin-right: 2%;
+}
+
+.navbar {
+    padding-right: 5vw;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    font-family: monospace;
+    box-shadow: 0px 5px 5px grey;
+}
+
+.navbar-link {
+    font-size: 1.25vw;
+    display: flex;
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+    cursor: pointer;
+    text-align: center;
+    /* align-self: flex-end; */
+    /* align-content: flex-end; */
+    /* align-; */
+    /* align-content: center; */
+}
+
+.navbar-link:hover {
+    color: grey;
+}
+
+.nav-app-head {
+    background-color: black;
+    float: right;
+    margin: auto;
+    color: white;
+    margin-left: 10px;
+}
+
+.nav-account {
+    margin-left: auto;
+    display: block;
+    float: right;
+}
+
+.searchBar {
+    width: auto;
+    border-radius: 10px;
+    padding: 0.5vw 1vw;
+    border: 1px black solid;
+}
+
+.login-button {
+    padding: 100px;
+}
