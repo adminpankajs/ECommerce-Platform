@@ -62,7 +62,7 @@ function App() {
           <Route path='/register/staffRegister' element = {<StaffRegister />} />
 
           {/* Product Routes */}
-          <Route path='/product/categories/tv' element = {<TvProductList />} />
+          <Route path='/product/categories/:sub_category' element = {<TvProductList />} />
 
           {/* Product-View Routes */}
           <Route path='/product/view/:productId' element = {<ProductDetailedView />} />

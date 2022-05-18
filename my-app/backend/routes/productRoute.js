@@ -9,6 +9,13 @@ router.route('/getAll').get((req,res) => {
 
 })
 
+router.route('/getAllByCategory').post((req,res) => {
+    Product.find(req.body)
+        .then(products => res.json(products))
+        .catch(err => res.status(400).json('Error:'+ err))
+
+})
+
 router.route('/getProductById').post((req,res) => {
     Product.find({product_id : req.body.product_id})
         .then(product => res.json(product))

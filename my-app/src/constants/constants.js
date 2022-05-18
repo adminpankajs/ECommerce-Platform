@@ -3,5 +3,12 @@ module.exports = {
     websiteProductImages : '/images/product_images/',
     websiteImages : '/images',
     websiteBrandLogo : '/images/brand-logo.jpeg',
-    backendApiUrl : 'http://localhost:5000/'
+    backendApiUrl : 'http://localhost:5000/',
+    imagesHelper : {
+        1 : 'tv',
+        2 : 'phone',
+
+
+        'tv' : 1
+    }
 }
