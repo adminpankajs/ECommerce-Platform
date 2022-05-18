@@ -61,7 +61,7 @@ export default function Navbar() {
             <Link to="/" className="navbar-link justify-right">
                 Home
             </Link>
-            <a style={{animationDelay: "2s"}} className="navbar-link justify-right" href="/#homepage-product-grid">Categories</a>
+            <a style={{animationDelay: "1s"}} className="navbar-link justify-right" href="/#homepage-product-grid">Categories</a>
             <Link to="/products/dashboard" className="navbar-link justify-right">
                 Mobile Phones
             </Link>
