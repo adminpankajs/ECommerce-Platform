@@ -1,50 +1,60 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import './productView.css';
 import '../../../constants/constants.css'
+import { useParams } from "react-router-dom";
 var constants = require("../../../constants/constants.js")
+const ProductService = require("../../../services/ProductService.js");
 
-export default function ProductDetailedView() {
-    const [product, setProduct] = useState({});
-    const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json'},
-        body: JSON.stringify(myparams)
-    };
+export default function ProductDetailedView(props) {
+    const { productId } = useParams();
+    const [product, setProduct] = useState({
+        product_details : {serial_no : '',features:[],price:0},
+        product_name : '',
+        product_img_link : 'blank',
+        launch_date : ''
+    });
+    useEffect(() => {
+        ProductService.getProductById({product_id : productId})
+            .then((res)=> {
+                if(res && res.length>0) {
+                    setProduct({
+                        product_details: res[0].product_details, 
+                        product_name: res[0].product_name,
+                        product_img_link: res[0].product_img_link,
+                        launch_date: res[0].launch_date
+                    });
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    },[])
 
-    fetch(`${constants.backendApiUrl}'/product/getProductById`,requestOptions)
-        .then(res => res = res.json())
-        .then(res => {
-            setProduct(res);
-        })
-        .catch((err) => {
-            setProduct({});
-            console.log(err);
-        })
 
     return(
         <div className="product-view-main">
             <div className="product-view-grid">
                 <div className="product-view-img">
-                    <img className="product-view-img-props"  src={constants.websiteProductImages+'/tv/tv_product_1.jpeg'}></img>
+                    <img className="product-view-img-props" alt="Error loading image" src={`${constants.websiteProductImages}/tv/${product.product_img_link}`}></img>
                 </div>
                 <div className="product-view-details">
-                    <div><b>Samsung UHD Smart 4K TV</b></div>
-                    <div style={{fontSize:"1.25vw"}}>PQCV123F50</div>
+                    <div><b>{product.product_name}</b></div>
+                    {/* <div style={{fontSize:"1.25vw"}}>PQCV123F50</div> */}
+                    <div style={{fontSize:"1.25vw"}}>{product.product_details.serial_no}</div>
                     <br></br>
                     <div>
                         Features
                         <pre></pre>
                         <div style={{fontSize: "1vw"}}>
-                            *Brand New Color Engine
-                            <br></br>
-                            *No Cost EMI starts from ₹ 4624.17/ month.
-                            <br></br>
-                            *Crystal Display and HDR
-                            <br></br>
-                            *Adaptive Sound & Q Symphony
-                            <br></br>
-                            *Multiple Voice Assistant with One Remote Control
-                            <br></br>
+                            {
+                                product.product_details.features.map((feature) => (
+                                    <div>
+                                        {feature}
+                                        <br></br>
+                                    </div>
+                                )
+                                )
+                            }
                         </div>
                     </div>
                     <div className="product-buy">

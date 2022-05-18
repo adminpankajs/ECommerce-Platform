@@ -1,7 +1,14 @@
 module.exports = {
-    websiteName : 'E-commerce Plaform',
-    websiteProductImages : '/images/product_images',
+    websiteName : 'E-commerce Platform',
+    websiteProductImages : '/images/product_images/',
     websiteImages : '/images',
     websiteBrandLogo : '/images/brand-logo.jpeg',
-    backendApiUrl : 'http://localhost:5000'
+    backendApiUrl : 'http://localhost:5000/',
+    imagesHelper : {
+        1 : 'tv',
+        2 : 'phone',
+
+
+        'tv' : 1
+    }
 }
