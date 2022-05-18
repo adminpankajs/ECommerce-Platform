@@ -9,6 +9,22 @@ const productSchema = new Schema({
         unique: true,
         required: true
     },
+    product_details: {
+        type: JSON,
+        default: {
+            serial_no : '',
+            features : {
+                type: Array,
+                default: []
+            },
+            price: {
+                type: Number,
+                default: 0,
+                required: true
+            }
+        },
+        required: true
+    },
     seller_id: {
         type: Number,
         required: true

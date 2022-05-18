@@ -9,7 +9,7 @@ router.route('/getAll').get((req,res) => {
 
 })
 
-router.route('/getProductById').get((req,res) => {
+router.route('/getProductById').post((req,res) => {
     Product.find({product_id : req.body.product_id})
         .then(product => res.json(product))
         .catch(err => res.status(400).json('Error:'+err))
@@ -26,6 +26,7 @@ router.route('/add').post((req,res) => {
         launch_date: new Date(),
         oem_address: req.body.oem_address,
         oem_mobileNo: req.body.oem_mobileNo,
+        product_details: req.body.product_details
     })
     newProduct.save()
         .then((result) => { 
