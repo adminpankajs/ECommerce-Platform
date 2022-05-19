@@ -23,6 +23,7 @@ const customerRouter = require('./routes/customerRoute');
 const logRouter = require('./routes/logRoute');
 const sellerRouter = require('./routes/sellerRoute');
 const productRouter = require('./routes/productRoute');
+const dbHelperRouter = require('./routes/dbHelperRoute');
 const authRouter = require('./auth_middleware/auth');
 const loginRouter = require('./auth_middleware/login');
 
@@ -33,6 +34,7 @@ app.use('/seller',sellerRouter);
 app.use('/auth',authRouter);
 app.use('/login',loginRouter)
 app.use('/product',productRouter);
+app.use('/dbHelper',dbHelperRouter);
 
 // middleware for cookies
 app.use(cookieParser);

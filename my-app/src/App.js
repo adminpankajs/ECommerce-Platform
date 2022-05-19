@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import './App.css';
@@ -26,6 +27,7 @@ import Page401 from './components/page401.component';
 import AddCourse from './components/addCourse.component';
 import DeleteCourse from './components/deleteCourse.component';
 import DeleteStudent from './components/deleteStudent.component';
+global.__basePath   = process.cwd() + '/';
 
 function App() {
   

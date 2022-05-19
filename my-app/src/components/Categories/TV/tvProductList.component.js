@@ -30,7 +30,7 @@ export default function TvProductList(props) {
                     <a href={`/product/view/${product.product_id}`}>
                         <div className="product-grid-item">
                             <div className="product-grid-item-img">
-                                <img className="product-grid-item-img-props" src={constants.websiteProductImages+`${constants.imagesHelper[product.sub_category]}/${product.product_img_link}`}></img>
+                                <img className="product-grid-item-img-props" alt="Error" src={constants.websiteProductImages+`${constants.imagesHelper[product.sub_category]}/${product.product_img_link}`}></img>
                             </div>
                             <div className="product-grid-item-details">
                                 <div>

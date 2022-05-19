@@ -33,7 +33,7 @@ async function getAllProducts(params) {
         return res;
     })
     .catch((err) => {
-        return "Failed";
+        return "FailedbHelper/getAlld";
     })
 }
 
