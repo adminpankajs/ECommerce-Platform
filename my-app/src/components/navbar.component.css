@@ -1,5 +1,6 @@
 body {
     margin: 0px;
+    font-family: 'Poppins', sans-serif;;
 }
 .float-left {
     float: left;
@@ -15,19 +16,21 @@ body {
 }
 
 .navbar {
+    z-index: 2;
     padding-right: 5vw;
     background-color: white;
     display: flex;
     align-items: center;
     font-family: monospace;
-    box-shadow: 0px 5px 5px grey;
+    box-shadow: 0px 2px 10px black;
 }
 
 .navbar-link {
     font-size: 1.25vw;
     display: flex;
     text-decoration: none;
-    color: rgb(0, 0, 0);
+    color: black;
+    font-weight: bold;
     cursor: pointer;
     text-align: center;
     /* align-self: flex-end; */
@@ -55,12 +58,20 @@ body {
 }
 
 .searchBar {
+    font-size: 1.25vw;
+    border: none;
+    background-color: whitesmoke;
     width: auto;
     border-radius: 10px;
     padding: 0.5vw 1vw;
-    border: 1px black solid;
 }
 
 .login-button {
     padding: 100px;
+}
+
+.navbar-account-select > option {
+    cursor: pointer;
+    background-color: whitesmoke;
+    color: black;
 }

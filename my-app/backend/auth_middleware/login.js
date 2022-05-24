@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken")
 const secretToken = "abc123"
 var bcrypt = require('bcryptjs');
 
-router.route('/Seller/generateToken').post(async(req,res) => {
+router.route('/seller/generateToken').post(async(req,res) => {
     const Seller = await Seller.find({'email': req.body.email});
     if(Seller != "") {
         const validPass = await bcrypt.compare(req.body.password,Seller[0].password)
@@ -44,22 +44,22 @@ router.route('/Seller/generateToken').post(async(req,res) => {
     }
 })
 
-router.route('/Customer/generateToken').post(async(req,res) => {
-    const Customer = await Customer.find({'email': req.body.email});
-    if(Customer != "") {
-        const validPass = await bcrypt.compare(req.body.password,Customer[0].password)
+router.route('/customer/generateToken').post(async(req,res) => {
+    const myCustomer = await Customer.find({'customer_email': req.body.email});
+    if(myCustomer != "") {
+        const validPass = await bcrypt.compare(req.body.password,myCustomer[0].customer_password)
         if(validPass) {
-            await jwt.verify(Customer[0].accessToken,secretToken,(err,verfiedJWT) => {
+            await jwt.verify(myCustomer[0].accessToken,secretToken,(err,verfiedJWT) => {
                 if(err) {
                     const accessToken = jwt.sign(
-                        {"email": Customer.email},
+                        {"email": myCustomer.email},
                         secretToken,
                         { expiresIn: '1d' }
                     );
-                    Customer[0].accessToken = accessToken
+                    myCustomer[0].accessToken = accessToken
 
                     Customer.updateOne({
-                        email: Customer[0].email
+                        email: myCustomer[0].email
                     }, {
                         $set: {
                             accessToken: accessToken
@@ -72,14 +72,14 @@ router.route('/Customer/generateToken').post(async(req,res) => {
 
                 }
                 else {
-                    res.json(Customer);
+                    res.json(myCustomer);
                 }
             })
             
         }
     }
     else {
-        res.json(Customer)
+        res.json(myCustomer)
     }
 })
 

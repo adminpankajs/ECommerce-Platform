@@ -4,7 +4,7 @@ const Customer = require('../models/customer.model')
 const jwt = require("jsonwebtoken")
 const secretToken = "abc123"
 
-router.route('/Seller/verifyToken').post((req,res) => {
+router.route('/seller/verifyToken').post((req,res) => {
     const token = req.body.accessToken
     jwt.verify(token,secretToken,(err,verfiedJWT) => {
         if(err) {
@@ -19,7 +19,7 @@ router.route('/Seller/verifyToken').post((req,res) => {
 
 })
 
-router.route('/Customer/verifyToken').post((req,res) => {
+router.route('/customer/verifyToken').post((req,res) => {
     const token = req.body.accessToken
     jwt.verify(token,secretToken,(err,verfiedJWT) => {
         if(err) {

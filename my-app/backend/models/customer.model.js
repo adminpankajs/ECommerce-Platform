@@ -7,6 +7,10 @@ const customerSchema = new Schema({
         type: String,
         required: true
     },
+    customer_id: {
+        type: Number,
+        required: true
+    },
     customer_password: {
         type: String,
         required: true

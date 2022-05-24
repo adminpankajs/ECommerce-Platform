@@ -1,8 +1,8 @@
 
-import React from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import './App.css';
-
+import UserContext from './services/ContextService';
 // imports for all components
 import Navbar from "./components/navbar.component";
 import Home from "./components/home.component";
@@ -13,8 +13,6 @@ import CourseList from './components/course.component';
 import UpdateCourse from './components/updateCourse.component';
 import UpdateStudent from './components/updateStudent.component';
 import StudentDashboard from './components/studentDashboard.component';
-import TvProductList from './components/Categories/TV/tvProductList.component';
-import ProductDetailedView from './components/Categories/ProductDetailedView/productView.component';
 import StaffDashboard from './components/staffDashboard.component';
 import StaffLogin from './components/staffLogin.component';
 import StaffRegister from './components/staffRegister.component';
@@ -27,11 +25,39 @@ import Page401 from './components/page401.component';
 import AddCourse from './components/addCourse.component';
 import DeleteCourse from './components/deleteCourse.component';
 import DeleteStudent from './components/deleteStudent.component';
+
+// importing Product Component
+import TvProductList from './components/Categories/TV/tvProductList.component';
+import ProductDetailedView from './components/Categories/ProductDetailedView/productView.component';
+import AddProduct from './components/Seller/addProduct/addProduct.component';
+
+// importing Customer Component
+import ViewCart from './components/Customer/viewCart/viewCart.component';
+import ViewOrders from './components/Customer/viewOrders/viewOrders.component';
+
+// import search
+import SearchWeb from './components/Search/search.component';
+
+import { useCookies } from "react-cookie";
 global.__basePath   = process.cwd() + '/';
 
+const AuthService = require('./services/AuthService');
+// const UserContext = React.createContext("Unknown");
 function App() {
+  const [cookies, setCookies]  = useCookies();
+  const [userName, setUserName] = useState(null);
   
+  useEffect(() => {
+    if(cookies.accessToken) {
+      AuthService.AuthTokenStaff(cookies.accessToken)
+      .then((result) => {
+        setUserName(result[0].customer_id);
+      })
+    }
+  },[])
+
   return (
+    <UserContext.Provider value={[userName, setUserName]}>
     <Router>
       <div className="app-flex">
         <Navbar />
@@ -65,9 +91,17 @@ function App() {
 
           {/* Product Routes */}
           <Route path='/product/categories/:sub_category' element = {<TvProductList />} />
+          <Route path='/product/addProduct' element = {<AddProduct />} />
 
           {/* Product-View Routes */}
           <Route path='/product/view/:productId' element = {<ProductDetailedView />} />
+
+          {/* Customer Routes */}
+          <Route path='/customer/viewCart/:customer_id' element = {<ViewCart />} />
+          <Route path='/customer/viewOrders/:customer_id' element = {<ViewOrders />} />
+
+          {/* Search Routes */}
+          <Route exact path='/search/:searchKeyword' element = {<SearchWeb />} />
 
           {/* Score Routes */}
           <Route path='/staff/search' element = {<SearchList />} />
@@ -82,6 +116,7 @@ function App() {
         <Footer/>
       </div>
     </Router>
+    </UserContext.Provider>
   );
 }
 

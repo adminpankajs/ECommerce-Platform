@@ -12,11 +12,10 @@ router.route('/getAll').get((req,res) => {
 
 router.route('/add').post((req,res) => {
     const newOrder = new Order({
-        customer_email: req.body.customer_email,
+        customer_id : (req.body.customer_id) ? req.body.customer_id : 1,
         product_id: req.body.product_id,
-        product_type: req.body.product_type,
-        sub_category: req.body.sub_category,
-        is_payed: false
+        is_payed: req.body.is_payed ? req.body.is_payed : false,
+        payment_id : (req.body.payment_id) ? req.body.payment_id : null
     })
     newOrder.save()
         .then(() => res.json("Order Successfully Added."))

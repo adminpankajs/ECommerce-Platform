@@ -71,8 +71,8 @@ export default function StudentLogin() {
                 </section>
             ) : (
                 <section>
-                    <h1 style={{textAlign: "center"}}>Student Login</h1>
                     <div  className="student_login_form">
+                        <h1 style={{textAlign: "center"}}>Student Login</h1>
                         <form style={{textAlign: "center", padding: "30px"}} onSubmit={handleSubmit}>
                             <label style={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
                                 Email :
@@ -89,7 +89,7 @@ export default function StudentLogin() {
                             </label>
                             <br/>
                             <h3 style={{color: "red"}}>{status}</h3>
-                            <button className="black-button" type="submit">Sign In</button>
+                            <button style={{border: "none", fontSize: "2vw", padding: "0vw 2vw",backgroundColor: "#f10f75", color: "white", borderRadius: "5px", paddingBlock: "0.5vw"}} type="submit">Sign In</button>
                         </form>
                     </div>
                 </section>

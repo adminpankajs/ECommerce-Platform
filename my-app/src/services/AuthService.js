@@ -9,7 +9,7 @@ function AuthTokenStaff(params) {
         body: JSON.stringify({accessToken: params})
     };
     
-    return fetch('http://localhost:5000/auth/staff/verifyToken',requestOptions)
+    return fetch('http://localhost:5000/auth/customer/verifyToken',requestOptions)
     .then(res => res.json())
     .then(res => {
         return res;
