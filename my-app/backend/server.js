@@ -34,8 +34,6 @@ app.use(express.urlencoded({
     extended: true
 }));
 
-// app.use(upload.array()); 
-// app.use(express.static('public'));
 
 // routers
 app.use('/customer',customerRouter);

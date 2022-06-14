@@ -31,22 +31,24 @@ export default function Home(props) {
                         </div>
                     </div>
                 </a>
-                <div className="product-grid-item">
-                    <div className="product-grid-item-img">
-                        <img className="product-grid-item-img-props" src={constants.websiteProductImages+'/homepage/category_mobile_phone.jpeg'}></img>
-                    </div>
-                    <div className="product-grid-item-details">
-                        {/* <div>
-                            Laptop
+                <a href={"/product/categories/mobilePhone"}>
+                    <div className="product-grid-item">
+                        <div className="product-grid-item-img">
+                            <img className="product-grid-item-img-props" src={constants.websiteProductImages+'/homepage/category_mobile_phone.jpeg'}></img>
+                        </div>
+                        <div className="product-grid-item-details">
+                            {/* <div>
+                                Laptop
+                            </div>
+                            <div style={{float: "right"}}>
+                                Rs. 40000
+                            </div> */}
                         </div>
                         <div style={{float: "right"}}>
-                            Rs. 40000
-                        </div> */}
+                            <button className="product-buy-link">Mobile Phones</button>
+                        </div>
                     </div>
-                    <div style={{float: "right"}}>
-                        <button className="product-buy-link">Mobile Phones</button>
-                    </div>
-                </div>
+                </a>
                 <div className="product-grid-item">
                     <div className="product-grid-item-img">
                         <img className="product-grid-item-img-props" src={constants.websiteProductImages+'/homepage/category_earphones.jpg'}></img>

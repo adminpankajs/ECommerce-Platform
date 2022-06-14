@@ -20,5 +20,12 @@ module.exports = {
             {'subTypeName' : 'Shirt','subTypeValue' : 4},
             {'subTypeName' : 'Jeans','subTypeValue' : 5}
         ]
+    },
+
+    productSubCategories: {
+        'tv' : 1,
+        'mobilePhone' : 2,
+        1 : 'Televisions',
+        2 : 'Mobile Phones'
     }
 }

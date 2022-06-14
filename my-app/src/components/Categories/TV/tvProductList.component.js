@@ -8,8 +8,9 @@ export default function TvProductList(props) {
     const [products, setProducts] = useState([])
     const { sub_category }  = useParams();
     useEffect(() => {
+        console.log('Ans : '+constants.productSubCategories[sub_category]);
         const params = {
-            sub_category : constants.imagesHelper[sub_category]
+            sub_category : constants.productSubCategories[sub_category]
         };
         ProductService.getAllProducts(params)
             .then((res)=> {
@@ -18,11 +19,11 @@ export default function TvProductList(props) {
             .catch((err) => {
                 console.log(err);
             })
-    },[])
+    },[sub_category])
 
     return (
         <div style={{zIndex: "0"}}>
-            <h1 id="tv-main" className="center-text heading1">Televisions</h1> 
+            <h1 id="tv-main" className="center-text heading1">{ constants.productSubCategories[constants.productSubCategories[sub_category]] }</h1> 
             <div style={{fontSize: "1.25vw", fontWeight: "900"}} className="product-grid">
                 {products.map((product) => (
                     <div>

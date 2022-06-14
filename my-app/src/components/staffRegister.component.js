@@ -24,10 +24,10 @@ export default function StaffRegister() {
         // Email format check
         var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
         if(email.match(mailformat)) {
-            fetch('http://localhost:5000/staff/getOne',{
+            fetch('http://localhost:5000/seller/getOne',{
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json'},
-                body: JSON.stringify({email : email})
+                body: JSON.stringify({seller_email : email})
             })
                 .then((data) => data = data.json())
                 .then((data) => {
@@ -61,7 +61,7 @@ export default function StaffRegister() {
                             headers: { 'Content-Type': 'application/json'},
                             body: JSON.stringify(staff)
                         };
-                        fetch('http://localhost:5000/staff/add', requestOptions)
+                        fetch('http://localhost:5000/seller/add', requestOptions)
                             .then((res) => setStatus('Registered !!'))
                             .catch((err) => console.log("ERROR"+err));
                     }
@@ -77,7 +77,7 @@ export default function StaffRegister() {
     return (
         <>
             <section>
-                <h1 style={{textAlign: "center"}}>Staff Register</h1>
+                <h1 style={{textAlign: "center"}}>Seller Register</h1>
                 <div className="register_form">
                     <form style={{textAlign: "center", padding: "30px"}} onSubmit={handleSubmit}>
                         <label className="register_form_label">

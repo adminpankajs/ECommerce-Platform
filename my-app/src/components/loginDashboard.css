@@ -53,3 +53,28 @@
     background-size: contain;
     background-repeat: no-repeat; */
 }
+
+.loginDashboard-form-roleType-button {
+    background-color: whitesmoke;
+    color: black;
+    /* outline: none; */
+    border: none;
+    font-size: 1.5vw;
+    border-radius: 1vw;
+    cursor: pointer;
+    padding: 1vw;
+}
+
+@keyframes form-animation {
+    0%   {opacity: 0.75}
+    20%   {opacity: 0.50}
+    40%   {opacity: 0.25}
+    60%   {opacity: 0.50}
+    80%   {opacity: 0.75}
+    100%   {opacity: 1}
+  }
+
+.my-animate {
+    animation-name: form-animation;
+    animation-duration: 500ms;
+}

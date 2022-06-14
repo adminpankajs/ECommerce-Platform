@@ -25,6 +25,7 @@ router.route('/searchProduct').post((req,res) => {
 })
 
 router.route('/getAllByCategory').post((req,res) => {
+    console.log(req.body)
     Product.find(req.body)
         .then(products => res.json(products))
         .catch(err => res.status(400).json('Error:'+ err))
@@ -45,7 +46,7 @@ router.route('/addProduct').post(upload.single("myFile"),async (req,res) => {
             product_name: req.body.product_name ? req.body.product_name : 'Error',
             product_type: req.body.product_type ? req.body.product_type : 1,
             sub_category: req.body.sub_category ? req.body.sub_category : 1,
-            product_img_link: req.body.product_img_link ? req.body.product_img_link : req.file.filename,
+            product_img_link: req.body.product_img_link ? req.body.product_img_link : ((req.file && req.file.filename) ? req.file.filename : 'blank'),
             launch_date: new Date(),
             oem_address: req.body.oem_address ? req.body.oem_address : 'Delhi',
             oem_mobileNo: req.body.oem_mobileNo ? req.body.oem_mobileNo : "7827321701",

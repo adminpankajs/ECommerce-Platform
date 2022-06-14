@@ -6,13 +6,17 @@ import '../../../constants/constants.css'
 import { useParams } from "react-router-dom";
 import { Bar, Line } from 'react-chartjs-2';
 import { Chart as ChartJS, registerables } from 'chart.js';
+import { useCookies } from "react-cookie";
 import axios from "axios";
 ChartJS.register(...registerables);
 var constants = require("../../../constants/constants.js")
+const AuthService = require("../../../services/AuthService");
 const ProductService = require("../../../services/ProductService.js");
 
 export default function ProductDetailedView(props) {
+    const navigate = useNavigate();
     const { productId } = useParams();
+    const [ cookies, setCookies ] = useCookies();
     const [userName ,setUserName ] = useContext(UserContext);
     const [product, setProduct] = useState({
         product_id : 0,
@@ -35,7 +39,8 @@ export default function ProductDetailedView(props) {
                         launch_date: res[0].launch_date
                     });
                 }
-                for(var i=0; i<4; i++) {
+                let rating = product.product_rating ? product.product_rating : 4;
+                for(var i=0; i<rating; i++) {
                     document.getElementsByClassName('fa-star')[i].className += ' checked';
                 }
             })
@@ -48,7 +53,17 @@ export default function ProductDetailedView(props) {
         // const params = {
         //     customer_id = 
         // }
-        ProductService.addToCart({})
+        console.log(cookies);
+        try {
+            AuthService.AuthToken(cookies.accessToken,cookies.role)
+                .then((result) => {
+                    ProductService.addToCart({product_id : product.product_id, customer_id : result[0].customer_id})
+                    navigate(`/customer/viewCart/${result[0].customer_id}`)
+                })
+        }
+        catch(err) {
+            alert('Something went wrong !! \n'+err);
+        }
     }
 
     return(
@@ -114,7 +129,7 @@ export default function ProductDetailedView(props) {
                     <br></br>
                     <div><b>M.R.P : ₹{Number(product.product_details.price).toLocaleString('en-IN')}</b></div>
                     <div className="product-buy">
-                        <button onClick={addToCart} className="product-buy-button"><b><Link style={{color:"white"}} to={`/product/addToCart/${product.product_id}/${userName}`}>Add to Cart</Link></b></button>
+                        <button style={{ cursor: "pointer" }} onClick={addToCart} className="product-buy-button"><b>Add to Cart</b></button>
                         <button style={{backgroundColor:"#f34653"}} className="product-buy-button websiteButton1"><b><Link style={{color:"white"}} to={'/'}>Buy Now</Link></b></button>
                     </div>
                 </div>

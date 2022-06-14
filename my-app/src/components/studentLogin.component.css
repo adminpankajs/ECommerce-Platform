@@ -15,7 +15,8 @@
     width: 20vw;
     max-width: 150px;
     font-size: larger;
-    background-color: black;
+    box-shadow: 0px;
+    background-color: rgb(243, 70, 83);
     color: white;
     border-radius: 0px;
 }

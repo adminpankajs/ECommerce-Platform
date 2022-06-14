@@ -8,8 +8,7 @@ const customerSchema = new Schema({
         required: true
     },
     customer_id: {
-        type: Number,
-        required: true
+        type: Number
     },
     customer_password: {
         type: String,

@@ -12,7 +12,7 @@ router.route('/getAll').get((req,res) => {
 
 })
 
-router.route('/add').post((req,res) => {
+router.route('/add').post(async(req,res) => {
     const email = req.body.email;
     const password = bcrypt.hashSync(req.body.password);
     const name = req.body.name;
@@ -22,11 +22,13 @@ router.route('/add').post((req,res) => {
     const mobileNo = req.body.mobileNo;
     const accessToken = req.body.accessToken;
 
+    const counter = await Customer.count()+1;
+
     const newCustomer = new Customer({
         customer_email: email,
         customer_password: password,
         customer_name : name,
-        customer_id: req.body.id,
+        customer_id: counter,
         gender : gender,
         dateOfBirth : dateOfBirth,
         address: address,
@@ -40,11 +42,10 @@ router.route('/add').post((req,res) => {
 })
 
 router.route('/getOne').post(async(req,res) => {
-    Customer.findOne({email : req.body.name})
+    console.log(req.body);
+    Customer.findOne({customer_email : req.body.email})
         .then(customer => res.json(customer))
         .catch(err => res.status(400).json('Error:'+ err))
-
-        
 
 })
 
@@ -99,6 +100,16 @@ router.route('/getCart').post((req,res) => {
     .then((result) => {
         res.json(result);
     })
+})
+
+router.route('/testing').post((req,res) => {
+    
+    let conditions = {};
+    conditions['$and'] = [];
+    Customer.find(conditions)
+        .then(function(result){
+            console.log(result.count);
+        })
 })
 
 module.exports = router;

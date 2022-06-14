@@ -29,42 +29,6 @@ router.route('/getOne').post((req,res) => {
 
 })
 
-// router.route('/getAllWithStudentData').post((req,res) => {
-//     Order.aggregate([
-//         {
-//             $lookup: {
-//                 from: "students",
-//                 localField: "email",
-//                 foreignField: "email",
-//                 as: "item"
-
-//             }
-//         },
-//         { $unwind: "$item"},
-//         {
-//             $project: {
-//                 "_id": 1,
-//                 "name": "$item.name",
-//                 "email": 1,
-//                 "Order": 1,
-//                 "subject": 2,
-//                 "enrollNo": "$item.enrollNo",
-//                 "mobileNo": "$item.mobileNo",
-//                 "address": "$item.address"
-//             }
-//         },
-//         {
-//             $match: req.body.queries
-//         },
-//         {
-//             $sort: req.body.sorting
-//         }
-//     ])
-//     .then((data) => res.json(data))
-//     .catch((err) => res.status(400).json('Error'+err));
-
-// })
-
 router.route('/update').patch(async(req,res) => {
     await Order.updateOne({
         email: req.body.email,

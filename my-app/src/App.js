@@ -38,6 +38,9 @@ import ViewOrders from './components/Customer/viewOrders/viewOrders.component';
 // import search
 import SearchWeb from './components/Search/search.component';
 
+// import about
+import About from './components/About/about.component';
+
 import { useCookies } from "react-cookie";
 global.__basePath   = process.cwd() + '/';
 
@@ -46,15 +49,6 @@ const AuthService = require('./services/AuthService');
 function App() {
   const [cookies, setCookies]  = useCookies();
   const [userName, setUserName] = useState(null);
-  
-  useEffect(() => {
-    if(cookies.accessToken) {
-      AuthService.AuthTokenStaff(cookies.accessToken)
-      .then((result) => {
-        setUserName(result[0].customer_id);
-      })
-    }
-  },[])
 
   return (
     <UserContext.Provider value={[userName, setUserName]}>
@@ -69,25 +63,18 @@ function App() {
           <Route path='/student/dashboard' element = {< StudentDashboard />} />
           <Route path="/student" element={<StudentList />}/>
           <Route path='/student/getOneById' element={<StudentGetOne />} />
-          <Route path='/register/studentRegister' element = {< StudentRegister />} />
+          <Route path='/register/customerRegister' element = {< StudentRegister />} />
           <Route path='/staff/deleteStudent' element = {<DeleteStudent />} />
           <Route path='/staff/updateStudent' element = {<UpdateStudent />} />
 
           {/* Staff Routes */}
           <Route path='/staff/dashboard' element = {< StaffDashboard />} />
           
-
-          {/* Course Routes */}
-          <Route path='/staff/viewCourse' element = {<CourseList />} />
-          <Route path='staff/addCourse' element = {<AddCourse />} />
-          <Route path='/staff/updateCourse' element = {<UpdateCourse />} />
-          <Route path='/staff/deleteCourse' element = {<DeleteCourse />} />
-        
           {/* Login Routes */}
           <Route path='/login' element={<LoginDashboard />} />
           <Route path='/login/staffLogin' element = {<StaffLogin />} />
           <Route path='/login/studentLogin' element = {<StudentLogin />} />
-          <Route path='/register/staffRegister' element = {<StaffRegister />} />
+          <Route path='/register/sellerRegister' element = {<StaffRegister />} />
 
           {/* Product Routes */}
           <Route path='/product/categories/:sub_category' element = {<TvProductList />} />
@@ -100,11 +87,11 @@ function App() {
           <Route path='/customer/viewCart/:customer_id' element = {<ViewCart />} />
           <Route path='/customer/viewOrders/:customer_id' element = {<ViewOrders />} />
 
+          {/* About Routes */}
+          <Route path='/about' element = {<About/>}/>
+
           {/* Search Routes */}
           <Route exact path='/search/:searchKeyword' element = {<SearchWeb />} />
-
-          {/* Score Routes */}
-          <Route path='/staff/search' element = {<SearchList />} />
           
           {/* Handling Path Not Found */}
           <Route path='*' exact={true} element = {<Page404/>} />

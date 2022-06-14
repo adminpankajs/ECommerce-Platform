@@ -86,7 +86,7 @@ export default function StaffLogin() {
                 <section>
                     <h1 style={{textAlign: "center"}}>Staff Login</h1>
                     <div className="student_login_form">
-                        <form style={{textAlign: "center", padding: "30px"}} onSubmit={handleSubmit}>
+                        <form style={{textAlign: "center"}} onSubmit={handleSubmit}>
                             <label style={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
                                 Email :
                                 <input type={"text"} placeholder="Shivam@mern.com" value={email}

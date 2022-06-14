@@ -6,41 +6,42 @@ const secretToken = "abc123"
 var bcrypt = require('bcryptjs');
 
 router.route('/seller/generateToken').post(async(req,res) => {
-    const Seller = await Seller.find({'email': req.body.email});
-    if(Seller != "") {
-        const validPass = await bcrypt.compare(req.body.password,Seller[0].password)
+    console.log('Hit to sller');
+    const mySeller = await Seller.find({'email': req.body.email});
+    if(mySeller != "") {
+        const validPass = await bcrypt.compare(req.body.password,mySeller[0].seller_password)
         if(validPass) {
-            await jwt.verify(Seller[0].accessToken,secretToken,(err,verfiedJWT) => {
+            await jwt.verify(mySeller[0].accessToken,secretToken,(err,verfiedJWT) => {
                 if(err) {
                     const accessToken = jwt.sign(
-                        {"email": Seller.email},
+                        {"email": mySeller.email},
                         secretToken,
                         { expiresIn: '1d' }
                     );
-                    Seller[0].accessToken = accessToken
+                    mySeller[0].accessToken = accessToken
 
                     Seller.updateOne({
-                        email: Seller[0].email
+                        email: mySeller[0].email
                     }, {
                         $set: {
                             accessToken: accessToken
                         }
                     })
                         .then(data => {
-                            res.json(Seller);
+                            res.json(mySeller);
                         })
                         .catch(err => console.log(err))
 
                 }
                 else {
-                    res.json(Seller);
+                    res.json(mySeller);
                 }
             })
             
         }
     }
     else {
-        res.json(Seller)
+        res.json(mySeller)
     }
 })
 
@@ -66,7 +67,7 @@ router.route('/customer/generateToken').post(async(req,res) => {
                         }
                     })
                         .then(data => {
-                            res.json(Customer);
+                            res.json(myCustomer);
                         })
                         .catch(err => console.log(err))
 

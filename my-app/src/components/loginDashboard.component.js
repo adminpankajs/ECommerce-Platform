@@ -13,18 +13,23 @@ export default function LoginDashboard(params) {
     const [userName ,setUserName ] = useContext(UserContext);
     const [cookies, setCookie, removeCookie ] = useCookies();
     const [status, setStatus] = useState('')
+    const [signupLink, setSignupLink] = useState('/register/customerRegister')
 
     const [email,setEmail] = useState('');
     const [pwd,setPwd] = useState('');
     const [authenticated,setAuthenticated] = useState(false);
+    const [roleType, setRoleType] = useState('customer');
     const navigate = useNavigate();
+
     
     // Handles the checks for user authentication.
     useEffect(() => {
+        document.getElementById('roleTypeCustomer').style.backgroundColor = '#f34653';
+        document.getElementById('roleTypeCustomer').style.color = 'white';
         console.log(userName);
         const token = cookies.accessToken;
         if(token !== undefined) {
-            (AuthService.AuthTokenStaff(cookies.accessToken))
+            (AuthService.AuthToken(cookies.accessToken,cookies.role))
             .then((res) => {
                 if(res!=="TokenFailed") {
                     setAuthenticated(true);
@@ -36,6 +41,10 @@ export default function LoginDashboard(params) {
                 })
         }
     },[cookies])
+    
+    useEffect(() => {
+        document.getElementById(roleType)
+    },[roleType])
 
     // Handles the user login form submission.
     const handleSubmit = async() => {
@@ -46,12 +55,11 @@ export default function LoginDashboard(params) {
             body: JSON.stringify({email: email, password: pwd})
         };
 
-        fetch('http://localhost:5000/login/customer/generateToken',requestOptions)
+        fetch(`http://localhost:5000/login/${roleType}/generateToken`,requestOptions)
             .then(res => res = res.json())
             .then(res => {
                 setCookie('accessToken',res[0].accessToken,{path: '/'});
-                setCookie('role','staff',{path: '/'});
-                setUserName('abc')
+                setCookie('role',roleType,{path: '/'});
                 setAuthenticated(true);
                 navigate('/')
             })
@@ -68,6 +76,30 @@ export default function LoginDashboard(params) {
         removeCookie("accessToken",{path:'/'});
         setAuthenticated(false);
         navigate('/');
+    }
+
+    const role = (val,e) => {
+        let obj = document.getElementsByClassName(e.target.className);
+        for(let i=0;i<obj.length;i++) {
+            obj[i].style.backgroundColor = 'whitesmoke';
+            obj[i].style.color = 'black';
+        }
+        document.getElementById(e.target.id).style.backgroundColor = '#f34653';
+        document.getElementById(e.target.id).style.color = 'white';
+        
+        let myObj = document.getElementsByClassName('loginDashboard-main-form');
+        // myObj[0].className = myObj[0].className+" my-animate";
+        window.setTimeout(() => {
+            myObj[0].classList.add("my-animate");
+          }, 0);
+        myObj[0].classList.remove("my-animate");
+        if(val=='customer') {
+            setSignupLink('/register/customerRegister');
+        }
+        else if(val=='seller') {
+            setSignupLink('/register/sellerRegister');
+        }
+        setRoleType(val);
     }
 
     return (
@@ -91,11 +123,18 @@ export default function LoginDashboard(params) {
                     <div className="loginDashboard-main-form">
                         <img className="loginImg" src={`${constants.websiteImages}/login-icon.png`}></img>
                         <b>Account Login</b>
+                        <br/>
+                        <div className="loginDashboard-form-roleType">
+                            <button onClick={(e) => role('customer',e)} id="roleTypeCustomer" className="loginDashboard-form-roleType-button">Customer</button>
+                            <button onClick={(e) => role('seller',e)} id="roleTypeSeller" className="loginDashboard-form-roleType-button">Seller</button>
+                        </div>
+                        <br/>
                         <input value={email} onChange={(e) => {setEmail(e.target.value); setStatus('')}} type={"text"} placeholder={"username"}/>
+                        <br/>
                         <input value={pwd} onChange={(e) => {setPwd(e.target.value); setStatus('')}} type={"password"} placeholder={"password"}/>
                         <h3 style={{color: "red"}}>{status}</h3>
                         <button onClick={handleSubmit} style={{float: "right"}} type="button" name="submitBtn" className="button submitButton  gsc_col-xs-12 gsc_col-md-12 "><div style={{fontWeight:"900"}}>Sign In</div></button>
-                        <Link style={{fontSize: "1vw", textDecoration: "underline", color: "blue"}} to={"/newlunk"}>Not having an account ?</Link>
+                        <Link style={{fontSize: "1vw", textDecoration: "underline", color: "blue"}} to={signupLink}>Not having an account ?</Link>
                     </div>
                 </div>
 

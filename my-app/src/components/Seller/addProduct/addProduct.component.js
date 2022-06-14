@@ -2,11 +2,17 @@ import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import './addProduct.css';
 import axios from 'axios';
+import Page401 from '../../page401.component';
+import { useCookies } from "react-cookie";
 var constants =  require('../../../constants/constants');
 const ProductService = require("../../../services/ProductService.js");
+const AuthService = require("../../../services/AuthService");
 
 export default function AddProduct(props) {
     var fs = require('fs');
+    const [status, setStatus] = useState('');
+    const [authen, setAuthen] = useState(false);
+    const [cookies, setCookies] = useCookies();
     const [productTypes, setProductTypes] = useState([]);
     const [productSubTypes, setProductSubTypes] = useState([]);
     const [name, setName] = useState('');
@@ -18,8 +24,15 @@ export default function AddProduct(props) {
     const [feature, setFeature] = useState('');
     const [uploadFile, setUploadFile]  = useState();
     useEffect(() => {
-        setProductTypes(constants.productCategory);
-    },[]);
+        if(cookies.role === 'seller') {
+            AuthService.AuthToken(cookies.accessToken,cookies.role)
+                .then((result) => {
+                    setAuthen(true);
+                    setProductTypes(constants.productCategory);
+                })
+        }
+    },[cookies]);
+
     
     useEffect(() => {
         console.log(category);
@@ -30,7 +43,6 @@ export default function AddProduct(props) {
     function addNewFeature() {
         if(feature != '') {
             setFeatures([...features,feature]);
-            console.log(features);
             setFeature('');
             document.getElementById('feature').value = '';
         }
@@ -50,13 +62,24 @@ export default function AddProduct(props) {
             formData.append('features', features[i]);
         }
 
-        axios.post('http://localhost:5000/product/addProduct',formData)
-            .then((res) => {
-                console.log('File uploaded');
-            })
+        try {
+            axios.post('http://localhost:5000/product/addProduct',formData)
+                .then((res) => {
+                    console.log('File uploaded');
+                    setStatus('Product Added.')
+                    setTimeout(() => {
+                        setStatus('');
+                    }, 1000);
+                })
+        }
+        catch(err) {
+            console.log(err);
+        }
     }
     
     return (
+        <>
+        { authen ? (
         <div className="addProduct">
             <div className="addProduct-form">
                 <div className="addProduct-mainHeading">
@@ -115,8 +138,16 @@ export default function AddProduct(props) {
                     <input onChange={(e) => {setUploadFile(e.target.files[0]); console.log(e.target.files[0])}} required type="file" id="myFile" className="uploadFileBtn" name="myFile"></input>
                     <button style={{float: "right", margin: "5px"}} type="button" onClick={saveData} name="submitBtn" class="button submitButton  gsc_col-xs-12 gsc_col-md-12 "><div style={{fontWeight:"900"}}>Add Product</div></button>
                 </label>
+                <div style={{float: "right"}}>{status}</div>
                 <br></br>
             </div>
         </div>
+        ) : (
+            <div>
+                <Page401/>
+            </div>
+        )
+        }
+        </>
     )
 }

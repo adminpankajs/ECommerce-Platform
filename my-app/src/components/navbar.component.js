@@ -11,7 +11,7 @@ export default function Navbar() {
     const [userName ,setUserName ] = useContext(UserContext);
     const [cookies, , deleteCookie] = useCookies();
     const [authenticated, setAuthenticated] = useState(false);
-    const [customer, setCustomer] = useState({});
+    const [user, setUser] = useState({});
     const [searchKeyword, setSearchKeyword] = useState('');
     const navigate = useNavigate();
 
@@ -26,12 +26,12 @@ export default function Navbar() {
     useEffect(() => {
         const token = cookies.accessToken;
         if(token !== undefined) {
-            if(cookies.role==='staff') {
-                (AuthService.AuthTokenStaff(cookies.accessToken))
+            if(cookies.role==='seller') {
+                (AuthService.AuthToken(cookies.accessToken,cookies.role))
                     .then((res) => {
                         if(res!=="TokenFailed") {
                             setAuthenticated(true);
-                            setCustomer(res[0])
+                            setUser(res[0])
                             // setUserName(res[0].customer_id)
                         }
                         else {
@@ -39,12 +39,13 @@ export default function Navbar() {
                         }
                     })
                 }
-                else if(cookies.role==='student') {
-                    (AuthService.AuthTokenStudent(cookies.accessToken))
+                else if(cookies.role==='customer') {
+                    (AuthService.AuthToken(cookies.accessToken,cookies.role))
                     .then((res) => {
                         if(res!=="TokenFailed") {
                             setAuthenticated(true);
-                            setCustomer(res[0])
+                            console.log('result'+res[0]);
+                            setUser(res[0])
                             setUserName(res[0].customer_name)
                         }
                         else {
@@ -64,6 +65,7 @@ export default function Navbar() {
 
     const logout = async() => {
         deleteCookie("accessToken",{path:'/'});
+        deleteCookie("role",{path:'/'});
         setAuthenticated(false);
         navigate('/');
     }
@@ -79,16 +81,19 @@ export default function Navbar() {
                 Home
             </Link>
             <a style={{animationDelay: "1s"}} className="navbar-link justify-right" href="/#homepage-product-grid">Categories</a>
-            <Link to="/products/dashboard" className="navbar-link justify-right">
+            <Link to="/product/categories/mobilePhone" className="navbar-link justify-right">
                 Mobile Phones
             </Link>
-            <a className="navbar-link justify-right" href={"/product/categories/tv#tv-main"} >
+            <Link to="/product/categories/tv" className="navbar-link justify-right">
+                Televisions
+            </Link>
+            {/* <a className="navbar-link justify-right" href={"/product/categories/tv"} >
                 Television
-            </a>
-            <Link to="/products/dashboard" className="navbar-link justify-right">
+            </a> */}
+            <Link to="/product/categories/mobilePhone" className="navbar-link justify-right">
                 Earphones
             </Link>
-            <Link to="/student/dashboard" className="navbar-link justify-right">
+            <Link to="/about" className="navbar-link justify-right">
                 About
             </Link>
             <input onChange={(e) => setSearchKeyword(e.target.value)} className="searchBar" type={"text"} placeholder="search"></input>
@@ -105,13 +110,23 @@ export default function Navbar() {
                             <option style={{backgroundColor:"whitesmoke",color:"black"}}>View Cart</option>
                             <option style={{backgroundColor:"whitesmoke",color:"black"}}>Logout</option>
                         </select> */}
+                        {cookies.role=='customer' ? (
                         <select onChange={(e) => { (e.target.value=='/logout') ? logout() : navigate(e.target.value) }} className="navbar-account-select" style={{border:"none",fontSize: "1.5vw",backgroundColor: "#f34653", color: "white", borderRadius: "5px", padding:"1vw",textAlign:"center"}}>
-                            <option hidden value="/">Hello, {customer.customer_name}</option>
-                            <option value={`/customer/viewCart/${customer.customer_id}`}>Your Cart</option>
-                            <option value={`/customer/viewOrders/${customer.customer_id}`}>Your Orders</option>
+                            <option hidden value="/">Hello, {user.customer_name}</option>
+                            <option value={`/customer/viewCart/${user.customer_id}`}>Your Cart</option>
+                            <option value={`/customer/viewOrders/${user.customer_id}`}>Your Orders</option>
                             <option value="/account">Your Account</option>
                             <option value="/logout">Logout</option>
                         </select>
+                        ) : (
+                            <select onChange={(e) => { (e.target.value=='/logout') ? logout() : navigate(e.target.value) }} className="navbar-account-select" style={{border:"none",fontSize: "1.5vw",backgroundColor: "#f34653", color: "white", borderRadius: "5px", padding:"1vw",textAlign:"center"}}>
+                                <option hidden value="/">Hello, {user.seller_name}</option>
+                                <option value={`/product/addProduct`}>Add Product</option>
+                                <option value="/account">Your Account</option>
+                                <option value="/logout">Logout</option>
+                            </select>
+                        )
+                        }
                     </>
                 ) : (
                     <Link style={{fontSize: "2vw", padding: "0vw 2vw",backgroundColor: "#f34653", color: "white", borderRadius: "5px", paddingBlock: "0.5vw"}} to="login/" className="navbar-link float-right">

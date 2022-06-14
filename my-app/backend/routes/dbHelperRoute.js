@@ -12,7 +12,7 @@ router.route('/getAll').get((req,res) => {
 router.route('/add').post((req,res) => {
     const newDbHelper = new DbHelper()
     newDbHelper.save()
-        .then(() => res.json("Log Successfully Added."))
+        .then(() => res.json("Counter Successfully Added."))
         .catch((err) => res.status(404).json("Error "+err));
 })
 
