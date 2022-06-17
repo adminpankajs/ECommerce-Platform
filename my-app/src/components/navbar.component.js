@@ -90,7 +90,7 @@ export default function Navbar() {
             {/* <a className="navbar-link justify-right" href={"/product/categories/tv"} >
                 Television
             </a> */}
-            <Link to="/product/categories/mobilePhone" className="navbar-link justify-right">
+            <Link to="/product/categories/earphone" className="navbar-link justify-right">
                 Earphones
             </Link>
             <Link to="/about" className="navbar-link justify-right">

@@ -25,7 +25,9 @@ module.exports = {
     productSubCategories: {
         'tv' : 1,
         'mobilePhone' : 2,
+        'earphone' : 3,
         1 : 'Televisions',
-        2 : 'Mobile Phones'
+        2 : 'Mobile Phones',
+        3 : 'Earphones'
     }
 }
